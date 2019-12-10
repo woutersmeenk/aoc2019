@@ -1,5 +1,5 @@
 from itertools import permutations
-debug = True
+debug = False
 
 
 class ZeroDefaultDict(dict):
@@ -9,6 +9,7 @@ class ZeroDefaultDict(dict):
 
 class IntcodeComp(object):
     def __init__(self, prog):
+        self._instr_exec = 0
         self._mem = ZeroDefaultDict()
         for i in range(len(prog)):
             self._mem[i] = prog[i]
@@ -54,7 +55,7 @@ class IntcodeComp(object):
         self._mem[params[2]] = 1 if params[0] == params[1] else 0
 
     def _set_rel_base(self, params):
-        self._rel_base = params[0]
+        self._rel_base += params[0]
 
     def _exec_instr(self):
         if debug:
@@ -100,6 +101,7 @@ class IntcodeComp(object):
         if debug:
             print(
                 f"A {self._pc}\t{self._input_data}\t{self._output_data}\t{self._rel_base}\t{name} {modes}\t\t{params_imm}\t{params}")
+        self._instr_exec += 1
 
     def run_until_output(self, input):
         self._input_data = input
@@ -125,4 +127,4 @@ if __name__ == "__main__":
     prog_str = lines[0]
     prog = list(map(int, prog_str.split(',')))
     comp = IntcodeComp(prog)
-    print(comp.run([1]))
+    print(comp.run([2]))
