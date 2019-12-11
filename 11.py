@@ -1,5 +1,6 @@
 from itertools import permutations
 
+
 class ZeroDefaultDict(dict):
     def __getitem__(self, key):
         return dict.get(self, key, 0)
@@ -40,7 +41,7 @@ class IntcodeComp(object):
     def _input(self, params):
         if len(self._input_data) == 0:
             self._need_input = True
-            return self._pc # Exec instruction again later
+            return self._pc  # Exec instruction again later
         self._mem[params[0]] = self._input_data.pop(0)
 
     def _output(self, params):
@@ -63,7 +64,7 @@ class IntcodeComp(object):
 
     def _halt(self, params):
         self._halted = True
-        return self._pc # Dont move the pc
+        return self._pc  # Dont move the pc
 
     def _exec_instr(self):
         if debug:
@@ -126,6 +127,7 @@ class IntcodeComp(object):
             self._exec_instr()
         return self._output_data
 
+
 debug = False
 
 if __name__ == "__main__":
@@ -133,13 +135,13 @@ if __name__ == "__main__":
     prog_str = lines[0]
     prog = list(map(int, prog_str.split(',')))
     comp = IntcodeComp(prog)
-    out = comp.run_until_input([0])
+    out = comp.run_until_input([1])
     world = {}
-    coords = (0,0)
+    coords = (0, 0)
     coords_delta = (0, 1)
     d = 0
     while len(out) > 0:
-        print(f"O {coords} {d} {out}")
+        # print(f"O {coords} {d} {out}")
         world[coords] = out[0]
         if out[1] == 0:
             d = (d - 90) % 360
@@ -148,18 +150,22 @@ if __name__ == "__main__":
         else:
             d = (d + 90) % 360
         if d == 0:
-            coords_delta = (0,1)
+            coords_delta = (0, 1)
         elif d == 90:
-            coords_delta = (1,0)
+            coords_delta = (1, 0)
         elif d == 180:
-            coords_delta = (-1,0)
+            coords_delta = (0, -1)
         elif d == 270:
-            coords_delta = (0,-1)
-        else: 
+            coords_delta = (-1, 0)
+        else:
             assert False
-        
+
         coords = (coords[0] + coords_delta[0], coords[1] + coords_delta[1])
         tile_color = world.get(coords, 0)
-        print(f"I {coords} {d} {tile_color}")
+        # print(f"I {coords} {d} {tile_color}")
         out = comp.run_until_input([tile_color])
     print(len(world))
+    for y in range(-10, 10):
+        for x in range(-50, 50):
+            print("#" if world.get((x, -y), 0) == 1 else ".", end="")
+        print(" ")
