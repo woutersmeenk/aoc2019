@@ -1,8 +1,8 @@
-def dfs(edges, v, disc, depth):
-    disc[v] = depth
+def dfs(edges, v, depths, depth):
+    depths[v] = depth
     for (c, o) in edges:
-        if c == v and o not in disc:
-            dfs(edges, o, disc, depth + 1)
+        if c == v and o not in depths:
+            dfs(edges, o, depths, depth + 1)
 
 
 def calc_dists(edges, s):
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     depths = dict()
     dfs(edges, 'COM', depths, 0)
-    print(f"{sum(depths.values())}")
+    print(f"Part 1: {sum(depths.values())}")
 
     dists = calc_dists(edges, 'YOU')
-    print(f"{dists['SAN']}")
+    print(f"Part 2: {dists['SAN'] - 2}")

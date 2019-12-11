@@ -1,39 +1,24 @@
+from intcode_comp import IntcodeComp
 
 if __name__ == "__main__":
+    lines = open("02.dat", "r").readlines()
+    prog = list(map(int, lines[0].split(',')))
 
-    text_file = open("02.dat", "r")
-    lines = text_file.readlines()
-    program = lines[0].split(',')
-    program = [int(value) for value in program]
-    program[1] = 95
-    program[2] = 7
-    print(program)
-    pc = 0
-    while True:
-        op = program[pc]
-        if op != 99:
-            in1_addr = program[pc+1]
-            in2_addr = program[pc+2]
-            out_addr = program[pc+3]
-        if op == 1:
-            in1 = program[in1_addr]
-            in2 = program[in2_addr]
-            program[out_addr] = in1 + in2
-            print(
-                f"{pc} Add {in1_addr} {in2_addr} : {in1} + {in2} = {program[out_addr]} to {out_addr}")
-        elif op == 2:
-            in1 = program[in1_addr]
-            in2 = program[in2_addr]
-            program[out_addr] = in1 * in2
-            print(
-                f"{pc} Mul {in1_addr} {in2_addr} : {in1} * {in2} = {program[out_addr]} to {out_addr}")
-        elif op == 99:
-            print(f"{pc} Halt")
+    comp = IntcodeComp(prog)
+    comp.mem[1] = 12
+    comp.mem[2] = 2
+    comp.run([])
+    print(f"Part 1: {comp.mem[0]}")
+
+    target = 19690720
+    for noun in range(100):
+        for verb in range(100):
+            comp = IntcodeComp(prog)
+            comp.mem[1] = noun
+            comp.mem[2] = verb
+            comp.run([])
+            if comp.mem[0] == target:
+                break
+        if comp.mem[0] == target:
             break
-        else:
-            print("Something has gone wrong!")
-            assert False
-        pc += 4
-        #print(f"{pc} : {program}")
-
-    print(f"{program[0]} diff {program[0] - 19690720}")
+    print(f"Part 2: {noun * 100 + verb}")
