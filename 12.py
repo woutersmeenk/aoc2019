@@ -1,5 +1,6 @@
 from itertools import combinations
 from collections import defaultdict
+import math
 
 
 def step(moons):
@@ -50,6 +51,10 @@ def find_idx_of_sub(l, pattern):
     return -1
 
 
+def lcm(a, b):
+    return abs(a*b) // math.gcd(a, b)
+
+
 if __name__ == "__main__":
     # io = [-1, 0, 2, 0, 0, 0]
     # europa = [2, -10, -7, 0, 0, 0]
@@ -66,26 +71,29 @@ if __name__ == "__main__":
 
     print(f"Part 1: {calc_total_energy(moons)}")
 
-    io = [-8, -10, 0, 0, 0, 0]
-    europa = [5, 5, 10, 0, 0, 0]
-    ganymede = [2, -7, 3, 0, 0, 0]
-    callisto = [9, -8, -3, 0, 0, 0]
-    # io = [-16, -1, -12, 0, 0, 0]
-    # europa = [0, -4, -17, 0, 0, 0]
-    # ganymede = [-11, 11, 0, 0, 0, 0]
-    # callisto = [2, 2, -6, 0, 0, 0]
+    # io = [-8, -10, 0, 0, 0, 0]
+    # europa = [5, 5, 10, 0, 0, 0]
+    # ganymede = [2, -7, 3, 0, 0, 0]
+    # callisto = [9, -8, -3, 0, 0, 0]
+    io = [-16, -1, -12, 0, 0, 0]
+    europa = [0, -4, -17, 0, 0, 0]
+    ganymede = [-11, 11, 0, 0, 0, 0]
+    callisto = [2, 2, -6, 0, 0, 0]
     moons = [io, europa, ganymede, callisto]
 
     per_axis_history = defaultdict(list)
 
-    for i in range(1000000):
+    for i in range(200000):
         record_history(moons, per_axis_history)
         step(moons)
 
-    for moon_idx in range(len(moons)):
-        total_steps = 1
-        for axis in range(6):
-            hist = per_axis_history[(moon_idx, axis)]
-            step = find_idx_of_sub(hist[1:], hist[0:20])
-            print(step)
-        print(total_steps)
+    # Only needed for one moon, because the moons influcence each other but the different axis's do not
+    # But for some reason the first and third moon give the wrong result....
+    # Why we do not have to think of the velocities .... no clue ...
+    total_steps = 1
+    for axis in range(3):
+        hist = per_axis_history[(1, axis)]
+        step = find_idx_of_sub(hist[1:], hist[0:20])
+        steps = step + 1
+        total_steps = total_steps * (steps // math.gcd(total_steps, steps))
+    print(f"Part 2: {total_steps}")
