@@ -66,9 +66,13 @@ if __name__ == "__main__":
 
     print(f"Part 1: {calc_ore(1)}")
 
-    l = 1
-    h = 10000000
-    print(f"{calc_ore(l)} {calc_ore(h)}")
-    # if calc_ore(fuel) > 1000000000000:
-
-    #print(f"Part 2: {1000000000000 - calc_ore(fuel)}")
+    max_ore = 1000000000000
+    l_fuel = 1
+    h_fuel = 10000000
+    while h_fuel - l_fuel > 1:
+        m_fuel = (l_fuel + h_fuel) // 2
+        if calc_ore(m_fuel) < max_ore:
+            l_fuel = m_fuel
+        else:
+            h_fuel = m_fuel
+    print(f"Part 2: {l_fuel}")
