@@ -33,8 +33,7 @@ if __name__ == "__main__":
         tile_color = world.get(coords, 0)
         # print(f"I {coords} {d} {tile_color}")
         out = comp.run_until_input([tile_color])
-    print(len(world))
-    for y in range(-10, 10):
-        for x in range(-50, 50):
-            print("#" if world.get((x, -y), 0) == 1 else ".", end="")
+    for y in range(0, 6):
+        for x in range(0, 50):
+            print("#" if world.get((x, -y), 0) == 1 else " ", end="")
         print(" ")

@@ -1,7 +1,4 @@
-
-class ZeroDefaultDict(dict):
-    def __getitem__(self, key):
-        return dict.get(self, key, 0)
+from collections import defaultdict
 
 
 class IntcodeComp(object):
@@ -10,7 +7,7 @@ class IntcodeComp(object):
         self.halted = False
         self.need_input = False
         self.instr_exec = 0
-        self.mem = ZeroDefaultDict()
+        self.mem = defaultdict(lambda: 0)
         for i in range(len(prog)):
             self.mem[i] = prog[i]
         self.instrs = {

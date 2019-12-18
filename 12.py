@@ -8,10 +8,6 @@ def step(moons):
         for axis in range(3):
             if moon1[axis] == moon2[axis]:
                 continue
-            # 1 = g 2 = c
-            # g = 3 c = 5
-            # 5 > 3 g + 1
-            # 3 < 5 c - 1
             elif moon1[axis] > moon2[axis]:
                 moon1[axis+3] -= 1
                 moon2[axis+3] += 1
