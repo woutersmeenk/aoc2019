@@ -26,12 +26,23 @@ if __name__ == "__main__":
                 align_param += (x*y)
 
     print(f"Part 1: {align_param}")
+
     comp = IntcodeComp(prog)
     comp.mem[0] = 2
-    in_data = []
-    while not comp.halted:
-        out = comp.run_until_input(in_data)
-        out_str = ''.join(map(chr, out))
-        in_str = input(out_str)
-        in_str += '\n'
-        in_data = list(map(ord, in_str))
+
+    in_str = "A,B,A,C,B,A,B,C,C,B\n"
+    in_str += "L,12,L,12,R,4\n"
+    in_str += "R,10,R,6,R,4,R,4\n"
+    in_str += "R,6,L,12,L,12\n"
+    in_str += "n\n"
+    in_str += "\n"
+    in_data = list(map(ord, in_str))
+
+    out = comp.run(in_data)
+    out_str = ''.join(map(chr, out))
+    print(out_str)
+
+    if out[-1] > 255:
+        print(f"Part 2: {out[-1]}")
+
+    # L,12,L,12,R,4,R,10
