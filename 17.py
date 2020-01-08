@@ -44,5 +44,3 @@ if __name__ == "__main__":
 
     if out[-1] > 255:
         print(f"Part 2: {out[-1]}")
-
-    # L,12,L,12,R,4,R,10
